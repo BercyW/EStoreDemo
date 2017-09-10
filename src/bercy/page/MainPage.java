@@ -63,7 +63,7 @@ public class MainPage extends ScannerChoice {
 	}
 
 	/**
-	 * maintenancePage
+	 * 1.products maintenancePage
 	 */
 	private static void maintenancePage() {
 		System.out.println("************************************\n");
@@ -189,7 +189,7 @@ public class MainPage extends ScannerChoice {
 	/**
 	 * 3.products management page
 	 */
-	private static void commodityManagementPage() {
+	public static void commodityManagementPage() {
 		System.out.println("***************************\n");
 		System.out.println("\t 1.SalsMan Management!\n");
 		System.out.println("\t 2.Show all products sold today!\n");
@@ -235,11 +235,49 @@ public class MainPage extends ScannerChoice {
 	private static void shoppingSettlementPage(int getsId) {
 
 	}
+
 	/**
-	 * salesMan page
+	 *1. SalsMan Management
 	 */
-	private static void salesManManagementPage() {
-		// TODO Auto-generated method stub
+	public static void salesManManagementPage() {
+		System.out.println("***************************\n");
+		System.out.println("\t 1.Add Salesman\n");
+		System.out.println("\t 2.Update Salesman\n");
+		System.out.println("\t 3.Delete Salesman\n");
+		System.out.println("\t 4.Query Salesman\n");
+		System.out.println("\t 5.Show all SalesMan\n");
+		System.out.println("***************************");
+
+		System.out.println("\nPlease choose one, or 0 go back");
+
+		do {
+			String choice = ScannerInfoString();
+			String regex = "[0-5]";
+			if (choice.matches(regex)) {
+				int info = Integer.parseInt(choice);
+				switch (info) {
+				case 0:
+					commodityManagementPage();
+					break;
+				case 1:					
+					SalesManPage.addSalesmanPage();
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				default:
+					break;
+
+				}
+
+			}
+
+		} while (true);
 
 	}
 }

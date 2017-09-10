@@ -23,7 +23,7 @@ public final class SalesManDao {
 	ResultSet rs = null;
 
 	/**
-	 * 1.font checkout page
+	 * 1.font checkout page check if has the salesman or not
 	 * 
 	 * @param sName
 	 * @return
@@ -55,4 +55,32 @@ public final class SalesManDao {
 
 		return salesManInfo;
 	}
+
+	/**
+	 * 2.add salesman
+	 */
+
+	public boolean addSalesman(SalesMan salesMan) {
+		boolean bool = false;
+		String sql = "insert into salesman(sname,password) values (?,?)";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, salesMan.getsName());
+			pstmt.setString(2, salesMan.getsPassword());
+			int rs = pstmt.executeUpdate();
+			if (rs > 0) {
+				bool = true;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DbClose.addClose(pstmt, conn);
+		}
+
+		return bool;
+	}
+
 }
