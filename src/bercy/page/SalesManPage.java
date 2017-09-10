@@ -1,7 +1,10 @@
 package bercy.page;
 
+import java.util.ArrayList;
+
 import bercy.dao.SalesManDao;
 import bercy.entity.SalesMan;
+import bercy.tools.QueryPrint;
 import bercy.tools.ScannerChoice;
 
 /**
@@ -37,6 +40,55 @@ public final class SalesManPage extends ScannerChoice {
 	 */
 	public static void updateSalesManPage() {
 
+		System.out.println("\tUpdating salesman!!\n");
+		System.out.println("Enter salesman's name");
+		String sName = ScannerInfoString();
+		ArrayList<SalesMan> salesManList = new QueryPrint().querySalesMan(sName);
+		
+		if(salesManList.size()<=0) {
+			System.out.println("\t!!No this person: "+sName);
+			choiceSalesManNext("updateSalesManPage");
+		}else {
+			System.out.println("\t\t\tSalesman Information\n\n");
+			System.out.println("\t\tID\t\tName\t\tPassword");
+			
+			SalesMan salesman = salesManList.get(0);
+			System.out.println("\t"+salesman.getsId()+"\t\t\t"+salesman.getsName()()+"\t\t\t"+salesman.getsPassword());
+			System.out.println();
+			
+			System.out.println("\n--------Which you want to change?\n");
+			System.out.println("\t1.Change Name");
+			System.out.println("\t2.Change password");
+			
+			do {
+				String choice = ScannerInfoString();
+				String regex = "[0-2]";
+				if(choice.matches(regex)) {
+					int info = Integer.parseInt(choice);
+					switch(info) {
+					case 0:
+						MainPage.salesManManagementPage();
+						break;
+					case 1:
+						
+					break;
+					case 2:
+						break;
+					default:
+						break;
+					}
+				
+				
+				}
+				
+				
+			}while(true);
+			
+		}
+		
+		
+		
+		
 	}
 
 	/**

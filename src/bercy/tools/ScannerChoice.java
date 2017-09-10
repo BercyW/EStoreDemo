@@ -2,6 +2,7 @@ package bercy.tools;
 
 import java.util.Scanner;
 
+import bercy.page.MainPage;
 import bercy.page.SalesManPage;
 
 public class ScannerChoice {
@@ -27,21 +28,24 @@ public class ScannerChoice {
 		do {
 			System.out.println("Continue or Stop:(Y/N)");
 			String choice = ScannerInfoString();
-			if("y".equals(choice)||"Y".equals(choice)) {
-				//based on different oper choice different page to go next
-				if("addSalesManPage".equals(oper)) {
+			if ("y".equals(choice) || "Y".equals(choice)) {
+				// based on different oper choice different page to go next
+				if ("addSalesManPage".equals(oper)) {
 					SalesManPage.addSalesmanPage();
-				}else if ("updateSalesManPage".equals(oper)) {
+				} else if ("updateSalesManPage".equals(oper)) {
 					SalesManPage.updateSalesManPage();
+				} else if ("deleteSalesManPage".equals(oper)) {
+					SalesManPage.deleteSalesManPage();
+				} else if ("querySalesManPage".equals(oper)) {
+					SalesManPage.querySalesManPage();
+				} else if ("displaySalesManPage".equals(oper)) {
+					SalesManPage.displaySalesManPage();
 				}
-				
-				
-				
-			}
-			
-			
-			
 
+			}else if("N".equals(choice)||"n".equals(choice)) {
+				MainPage.salesManManagementPage();
+			}
+			System.out.println("\tWrong operation");
 		} while (true);
 	}
 }

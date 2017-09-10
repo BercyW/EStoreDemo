@@ -82,5 +82,35 @@ public final class SalesManDao {
 
 		return bool;
 	}
+	/**
+	 * 3.change salesman
+	 */
+	public boolean updataSalesman(int key, SalesMan salesman) {
+		boolean bool = false;
+		conn = DbConn.getConn();
+		switch (key) {
+			case 1 :
+
+				String sql = "update salesman set sName = ? where sid = ?";
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, salesman.getsName());
+					pstmt.setInt(2, salesman.getsId());
+				}
+
+				catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				break;
+			case 2 :
+
+				break;
+			default :
+				break;
+		}
+		return bool;
+	}
 
 }
