@@ -82,6 +82,7 @@ public final class SalesManDao {
 
 		return bool;
 	}
+
 	/**
 	 * 3.change salesman
 	 */
@@ -89,28 +90,113 @@ public final class SalesManDao {
 		boolean bool = false;
 		conn = DbConn.getConn();
 		switch (key) {
-			case 1 :
+		// change name;
+		case 1:
+			String sqlName = "update salesman set sName = ? where sid = ?";
+			try {
+				pstmt = conn.prepareStatement(sqlName);
+				pstmt.setString(1, salesman.getsName());
+				pstmt.setInt(2, salesman.getsId());
+				int value = pstmt.executeUpdate();
 
-				String sql = "update salesman set sName = ? where sid = ?";
-				try {
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, salesman.getsName());
-					pstmt.setInt(2, salesman.getsId());
+				if (value > 0) {
+					bool = true;
 				}
+			}
 
-				catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				DbClose.addClose(pstmt, conn);
+			}
+
+			break;
+		// change password
+		case 2:
+			String sqlPW = "update salesman set password = ? where sid = ?";
+			try {
+				pstmt = conn.prepareStatement(sqlPW);
+				pstmt.setString(1, salesman.getsPassword());
+				pstmt.setInt(2, salesman.getsId());
+				int value = pstmt.executeUpdate();
+				if (value > 0) {
+					bool = true;
 				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				DbClose.addClose(pstmt, conn);
+			}
 
-				break;
-			case 2 :
-
-				break;
-			default :
-				break;
+			break;
+		default:
+			break;
 		}
 		return bool;
+	}
+
+	/**
+	 * delete salesman
+	 * 
+	 * @param sName
+	 * @return
+	 */
+	public boolean deleteSalesMan(String sName) {
+		boolean bool = false;
+		conn = DbConn.getConn();
+		String sql = "delete from salesman where sname = ?";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sName);
+			int value = pstmt.executeUpdate();
+
+			if (value > 0) {
+				bool = true;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DbClose.addClose(pstmt, conn);
+		}
+
+		return bool;
+	}
+
+	/**
+	 * display all salesman
+	 */
+
+	public ArrayList<SalesMan> displaySalesman() {
+		ArrayList<SalesMan> salesmanList = new ArrayList<SalesMan>();
+		conn = DbConn.getConn();
+		String sql = "select * from salesman";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int sId = rs.getInt(1);
+				String sName = rs.getString(2);
+				String sPassword = rs.getString(3);
+
+				SalesMan sm = new SalesMan(sId, sName, sPassword);
+				salesmanList.add(sm);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DbClose.queryClose(pstmt, rs, conn);
+		}
+
+		return salesmanList;
 	}
 
 }

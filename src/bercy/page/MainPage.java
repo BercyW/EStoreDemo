@@ -263,12 +263,16 @@ public class MainPage extends ScannerChoice {
 					SalesManPage.addSalesmanPage();
 					break;
 				case 2:
+					SalesManPage.updateSalesManPage();
 					break;
 				case 3:
+					SalesManPage.deleteSalesManPage();
 					break;
 				case 4:
+					SalesManPage.querySalesManPage();
 					break;
 				case 5:
+					SalesManPage.displaySalesManPage();
 					break;
 				default:
 					break;
