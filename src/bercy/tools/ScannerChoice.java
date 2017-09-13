@@ -2,13 +2,15 @@ package bercy.tools;
 
 import java.util.Scanner;
 
+import bercy.page.GoodsPage;
 import bercy.page.MainPage;
 import bercy.page.SalesManPage;
+
 
 public class ScannerChoice {
 
 	/**
-	 * get keyboard type in number
+	 * get String from keyboard
 	 * 
 	 * @return
 	 */
@@ -20,7 +22,85 @@ public class ScannerChoice {
 	}
 
 	/**
-	 * the the next step for add/change/delete/query/
+	 * get double from keyboard
+	 */
+	public static double ScannerInfoDouble() {
+		double num = 0.00;
+		do {
+			Scanner sc = new Scanner(System.in);
+			System.out.print("Keep two decimal:");
+			String info = sc.next();
+
+			String regex = "(([1-9][0-9]*)\\.([0-9]{2}))|([0]\\.([0-9]{2}))";
+			if (info.matches(regex)) {
+
+				num = Double.parseDouble(info);
+
+			} else {
+				System.err.println("----Error----");
+				continue;
+			}
+
+			break;
+		} while (true);
+		return num;
+	}
+
+	/**
+	 * get amount from keyboard
+	 *
+	 */
+	public static int ScannerNum() {
+		int num = 0;
+		String regex = "([1-9])|([1-9][0-9]+)";
+		do {
+			Scanner sc = new Scanner(System.in);
+			System.out.print("Enter amount: ");
+			String nums = sc.next();
+			
+			if(nums.matches(regex)) {
+				
+				num = Integer.parseInt(nums);
+				
+			}else {
+				System.err.println("----Error----");
+				continue;
+			}
+			
+			
+			break;
+		} while (true);
+
+		return num;
+	}
+	
+	/**
+	 * next step for add/change/delete/query/ on goods relate pages
+	 */
+	public static void changedInfoNext(String oper) {
+		do {
+		System.out.println("Continue:(Y/N)");
+		String choice = ScannerChoice.ScannerInfoString();
+		
+		if("y".equals(choice)||"Y".equals(choice)) {
+			if("upateGoodsPage".equals(oper)) {
+				 GoodsPage.updateGoodsPage();
+			}else if("addGoodsPage".equals(oper)) {
+				GoodsPage.addGoodsPage();
+			}else if("deleteGoodsPage".equals(oper)) {
+				GoodsPage.deleteGoodsPage();
+			}
+		}else if ("n".equals(choice)||"N".equals(choice)) {
+			MainPage.maintenancePage();
+		}
+		
+		System.out.println("Error!!!!");
+		}while(true);
+	}
+	
+	
+	/**
+	 * the the next step for add/change/delete/query/ on salesman relate pages
 	 * 
 	 * @param oper
 	 */
@@ -42,7 +122,7 @@ public class ScannerChoice {
 					SalesManPage.displaySalesManPage();
 				}
 
-			}else if("N".equals(choice)||"n".equals(choice)) {
+			} else if ("N".equals(choice) || "n".equals(choice)) {
 				MainPage.salesManManagementPage();
 			}
 			System.out.println("\tWrong operation");

@@ -65,7 +65,7 @@ public class MainPage extends ScannerChoice {
 	/**
 	 * 1.products maintenancePage
 	 */
-	private static void maintenancePage() {
+	public static void maintenancePage() {
 		System.out.println("************************************\n");
 		System.out.println("\t 1.Add products\n");
 		System.out.println("\t 2.Change products\n");
@@ -118,7 +118,7 @@ public class MainPage extends ScannerChoice {
 	/**
 	 * 2.font checkout page
 	 */
-	private static void checkstandLogPage() {
+	public static void checkstandLogPage() {
 		System.out.println("\n*******Welcome to checkout page*******\n");
 		System.out.println("\t 1.Login\n");
 		System.out.println("\t 2.exit\n");
@@ -233,11 +233,11 @@ public class MainPage extends ScannerChoice {
 	 * @param getsId
 	 */
 	private static void shoppingSettlementPage(int getsId) {
-
+		
 	}
 
 	/**
-	 *1. SalsMan Management
+	 *SalsMan Management
 	 */
 	public static void salesManManagementPage() {
 		System.out.println("***************************\n");
@@ -280,7 +280,8 @@ public class MainPage extends ScannerChoice {
 				}
 
 			}
-
+			System.out.println("Wrong number");
+			System.out.println("Try Again or 0 exit");
 		} while (true);
 
 	}
