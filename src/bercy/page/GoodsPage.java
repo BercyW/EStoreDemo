@@ -115,29 +115,86 @@ public class GoodsPage extends ScannerChoice {
 	public static void deleteGoodsPage() {
 		System.out.println("\tDeleting Goods Info!!\n");
 		System.out.println("\nPlease Enter Goods Name");
-		
+
 		int gid = QueryPrint.query("deleteGoodsPage");
 		do {
-		System.out.println("Are you sure to delete this Item:Y/N");
-		 String choice = ScannerInfoString();
-		 if("y".equals(choice)||"Y".equals(choice)) {
-			 boolean boolDeleteGoods = new GoodsDao().deleteGoods(gid);
-			 if(boolDeleteGoods) {
-				 System.out.println("Delete succeed!!");
-			 }else {
-				 System.out.println("Delete Failed!!");
-			 }
-			 changedInfoNext("deleteGoodsPage"); 
-			 
-		 }else if ("N".equals(choice) || "n".equals(choice)) {
-			 MainPage.maintenancePage();
-		 }
-		 System.out.println("!!Error!!");
-		}while(true);
+			System.out.println("Are you sure to delete this Item:Y/N");
+			String choice = ScannerInfoString();
+			if ("y".equals(choice) || "Y".equals(choice)) {
+				boolean boolDeleteGoods = new GoodsDao().deleteGoods(gid);
+				if (boolDeleteGoods) {
+					System.out.println("Delete succeed!!");
+				} else {
+					System.out.println("Delete Failed!!");
+				}
+				changedInfoNext("deleteGoodsPage");
+
+			} else if ("N".equals(choice) || "n".equals(choice)) {
+				MainPage.maintenancePage();
+			}
+			System.out.println("!!Error!!");
+		} while (true);
 	}
 
+	/**
+	 * query the products
+	 */
 	public static void queryGoodsPage() {
-		// TODO Auto-generated method stub
+		System.out.println("\t\t  Searching products\n");
+		System.out.println("\t\t1.Sort of Amount");
+		System.out.println("\t\t2.Sort of Price");
+		System.out.println("\t\t3.Search use key word");
+		System.out.println("\nOr enter 0 to go back!");
+
+		do {
+			String info = ScannerInfoString();
+			String regex = "[0-3]";
+			if (info.matches(regex)) {
+				int choice = Integer.parseInt(info);
+				if (choice == 0) {
+					MainPage.maintenancePage();
+				} else if (choice == 3) {
+					System.out.println("\t\tSearching the key word!!");
+					System.out.println("Enter item's name: ");
+
+				}
+				ArrayList<Goods> goodsList = new GoodsDao().queryGoods(choice);
+				if (goodsList.size() <= 0 || goodsList == null) {
+
+					System.err.println("---Database is empty!!---");
+					queryGoodsPage();
+				}else {
+					if(choice == 1) {
+						 System.out.println("\t\t\t\t\tProducts sort of amount\n\n");
+					}else if(choice == 2) {
+						 System.out.println("\t\t\t\t\tProducts sort of price\n\n");				
+					}
+					System.out.println("\tID\t\tName\t\tPrice\t\tAmount\t\tComment\n");
+				for (Goods goods : goodsList) {
+					System.out.print("\t"+goods.getgId()+"\t\t"+goods.getgName()+"\t\t"+goods.getgPrice()+"\t\t"+goods.getgNumber());
+					if(goods.getgNumber()==0) {
+						System.out.println("This item is sold out!");
+						
+					}else if(goods.getgNumber()<10) {
+						System.out.println("This item is less than 10.");
+					}else {
+						System.out.println("\t\t-");
+					}				
+				}
+					System.out.println("---------------------");
+					do {
+						System.out.println("Enter 0 to go back!");
+						String choiceNext = ScannerInfoString();
+						if("0".equals(choiceNext)) {
+							MainPage.maintenancePage();
+						}
+						System.out.println("Wrong number!");
+						
+					}while(true);
+				}
+
+			}
+		} while (true);
 
 	}
 

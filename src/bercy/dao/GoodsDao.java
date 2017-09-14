@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import bercy.db.DbClose;
 import bercy.db.DbConn;
 import bercy.entity.Goods;
+import bercy.tools.ScannerChoice;
 
 /**
  * goods database management
@@ -132,6 +134,12 @@ public class GoodsDao {
 		return bool;
 	}
 
+	/**
+	 * 3.delete goods
+	 * 
+	 * @param gid
+	 * @return
+	 */
 	public boolean deleteGoods(int gid) {
 		boolean bool = false;
 
@@ -159,4 +167,91 @@ public class GoodsDao {
 
 	}
 
+	/**
+	 * 4.query goods
+	 */
+	public ArrayList<Goods> queryGoods(int key) {
+		ArrayList<Goods> goodsList = new ArrayList<Goods>();
+		conn = DbConn.getConn();
+		switch (key) {
+
+		case 1: // sort of amount
+			String sqlNum = "select * from goods order by gnum asc";
+			try {
+				pstmt = conn.prepareStatement(sqlNum);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					int gid = rs.getInt("gid");
+					String gname = rs.getString(2);
+					double gprice = rs.getDouble(3);
+					int gnum = rs.getInt(4);
+
+					Goods goods = new Goods(gid, gname, gprice, gnum);
+					goodsList.add(goods);
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				DbClose.queryClose(pstmt, rs, conn);
+			}
+
+			break;
+		case 2: // sort of price
+			String sqlprice = "select * from goods order by gprice asc";
+			try {
+				pstmt = conn.prepareStatement(sqlprice);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					int gid = rs.getInt("gid");
+					String gname = rs.getString(2);
+					double gprice = rs.getDouble(3);
+					int gnum = rs.getInt(4);
+
+					Goods goods = new Goods(gid, gname, gprice, gnum);
+					goodsList.add(goods);
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				DbClose.queryClose(pstmt, rs, conn);
+			}
+
+			break;
+		case 3:// keyword search
+			String nameGet = ScannerChoice.ScannerInfoString();
+			String sqlGname = "select * from goods where gname like '%'||?||'%'";
+
+			try {
+				pstmt = conn.prepareStatement(sqlGname);
+				pstmt.setString(1, nameGet);
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					int gid = rs.getInt("gid");
+					String gname = rs.getString(2);
+					double gprice = rs.getDouble(3);
+					int gnum = rs.getInt(4);
+					Goods goods = new Goods(gid, gname, gprice, gnum);
+
+					goodsList.add(goods);
+
+				}
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				DbClose.queryClose(pstmt, rs, conn);
+			}
+
+			break;
+		default:
+			break;
+		}
+		return goodsList;
+	}
 }
